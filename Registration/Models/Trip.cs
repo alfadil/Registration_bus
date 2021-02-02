@@ -21,11 +21,11 @@ namespace Registration.Models
         public virtual Route Route { set; get; }
 
         [Display(Name = "Number Of Seats")]
+        [Range(1, 100)]
         public int num_seats { get; set; }
 
-        //[DataType(DataType.DateTime)]
-        //[DisplayFormat(DataFormatString = "{0:yyyy/MM/dd HH:mm:ss}", ApplyFormatInEditMode = true)]
-        [DisplayName("date")]
+
+        [DisplayName("Date")]
         [DataType(DataType.Date)]
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-ddThh:mm}", ApplyFormatInEditMode = true)]
         public DateTime DateTime { get; set; }
@@ -36,5 +36,36 @@ namespace Registration.Models
 
         [Display(Name = "Driver")]
         public virtual ApplicationUser Driver { set; get; }
+
+
+        [InverseProperty(nameof(Reserve.Trip))]
+        public virtual ICollection<Reserve> Reserves { get; set; }
+
+        [Display(Name = "Reserved")]
+        public int Reserved
+        {
+            get
+            {
+                return Reserves.Count;
+            }
+        }
+
+        [Display(Name = "Full Reserved")]
+        public bool FullReserved
+        {
+            get
+            {
+                if(Reserves.Count == num_seats)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+        }
+
+
     }
 }

@@ -55,5 +55,8 @@ namespace Registration.Models
         }
 
         public System.Data.Entity.DbSet<Registration.Models.Trip> Trips { get; set; }
+
+        public System.Data.Entity.DbSet<Registration.Models.Reserve> Reserves { get; set; }
+
     }
 }

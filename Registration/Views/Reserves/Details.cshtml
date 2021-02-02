@@ -1,0 +1,58 @@
+﻿@model Registration.Models.Reserve
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Reserve</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Customer.Address)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Customer.Address)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Trip.DriverID)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Trip.DriverID)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DateTime)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DateTime)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Paid)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Paid)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CardNumber)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CardNumber)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.ReserveID }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

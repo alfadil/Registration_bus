@@ -10,7 +10,7 @@ namespace Registration.Models
     public class Route
     {
         public int ID { set; get; }
-
+        [Display(Name = "Route")]
         public string Name
         {
             get

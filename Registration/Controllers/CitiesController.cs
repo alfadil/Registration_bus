@@ -10,6 +10,7 @@ using Registration.Models;
 
 namespace Registration.Controllers
 {
+    [Authorize(Roles = "Admin")]
     public class CitiesController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();

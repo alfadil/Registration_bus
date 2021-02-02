@@ -1,0 +1,50 @@
+﻿@model IEnumerable<Registration.Models.Trip>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Search For Trip</h2>
+
+<form asp-controller="TripsSearch" asp-action="Index">
+    <p>
+        From: @Html.DropDownList("FromCityId", null, htmlAttributes: new { @class = "form-control", @value= ViewBag.FromCity })
+        To: @Html.DropDownList("TOCityId", null, htmlAttributes: new { @class = "form-control", @value = ViewBag.ToCity })
+        Date: <input class="text-box single-line" id="DateTime" name="DateTime"
+                     type="date" value=@ViewBag.DateTime />
+        <br/>
+        Number Traveller : <input class="text-box single-line" id="NumTrav" name="NumTrav"
+                 type="number" min="1" value=@ViewBag.NumTrav />
+        <input type="submit" value="Filter" />
+    </p>
+</form>
+<table class="table">
+    <tr>
+        <th>
+            From
+        </th>
+        <th>
+            To
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DateTime)
+        </th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Route.FromCity.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Route.TOCity.Name)
+            </td>
+            <td>
+                @Convert.ToDateTime(item.DateTime).ToString("yyyy MMMM dd HH:mm")
+            </td>
+            
+        </tr>
+    }
+
+</table>

@@ -172,8 +172,10 @@
     <Compile Include="Controllers\DriversController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="Controllers\ReservesController.cs" />
     <Compile Include="Controllers\RoutesController.cs" />
     <Compile Include="Controllers\TripsController.cs" />
+    <Compile Include="Controllers\TripsSearchController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -182,6 +184,7 @@
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\MyDateTimeModelBinder.cs" />
+    <Compile Include="Models\Reserve.cs" />
     <Compile Include="Models\Route.cs" />
     <Compile Include="Models\Trip.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -266,6 +269,12 @@
     <Content Include="Views\Trips\Details.cshtml" />
     <Content Include="Views\Trips\Edit.cshtml" />
     <Content Include="Views\Trips\Index.cshtml" />
+    <Content Include="Views\Reserves\Create.cshtml" />
+    <Content Include="Views\Reserves\Delete.cshtml" />
+    <Content Include="Views\Reserves\Details.cshtml" />
+    <Content Include="Views\Reserves\Edit.cshtml" />
+    <Content Include="Views\Reserves\Index.cshtml" />
+    <Content Include="Views\TripsSearch\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

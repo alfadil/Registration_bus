@@ -6,10 +6,13 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.EntityFramework;
 using Registration.Models;
 
 namespace Registration.Controllers
 {
+    [Authorize(Roles = "Admin")]
     public class TripsController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
@@ -39,7 +42,13 @@ namespace Registration.Controllers
         // GET: Trips/Create
         public ActionResult Create()
         {
-            ViewBag.DriverID = new SelectList(db.Users, "Id", "Name");
+            var roleManager = new RoleManager<IdentityRole>(new RoleStore<IdentityRole>(db));
+            var roleID = roleManager.FindByName("Driver");
+            var drivers = from u in db.Users
+                        where u.Roles.Any(r => r.RoleId == roleID.Id)
+                        select u;
+
+            ViewBag.DriverID = new SelectList(drivers, "Id", "Name");
             ViewBag.RouteID = new SelectList(db.Routes, "ID", "Name");
             return View();
         }
@@ -75,8 +84,15 @@ namespace Registration.Controllers
             {
                 return HttpNotFound();
             }
-            ViewBag.DriverID = new SelectList(db.Users, "Id", "Address", trip.DriverID);
-            ViewBag.RouteID = new SelectList(db.Routes, "ID", "ID", trip.RouteID);
+
+            var roleManager = new RoleManager<IdentityRole>(new RoleStore<IdentityRole>(db));
+            var roleID = roleManager.FindByName("Driver");
+            var drivers = from u in db.Users
+                          where u.Roles.Any(r => r.RoleId == roleID.Id)
+                          select u;
+
+            ViewBag.DriverID = new SelectList(drivers, "Id", "Name", trip.DriverID);
+            ViewBag.RouteID = new SelectList(db.Routes, "ID", "Name", trip.RouteID);
             return View(trip);
         }
 
@@ -93,8 +109,14 @@ namespace Registration.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            ViewBag.DriverID = new SelectList(db.Users, "Id", "Address", trip.DriverID);
-            ViewBag.RouteID = new SelectList(db.Routes, "ID", "ID", trip.RouteID);
+            var roleManager = new RoleManager<IdentityRole>(new RoleStore<IdentityRole>(db));
+            var roleID = roleManager.FindByName("Driver");
+            var drivers = from u in db.Users
+                          where u.Roles.Any(r => r.RoleId == roleID.Id)
+                          select u;
+
+            ViewBag.DriverID = new SelectList(drivers, "Id", "Name", trip.DriverID);
+            ViewBag.RouteID = new SelectList(db.Routes, "ID", "Name", trip.RouteID);
             return View(trip);
         }
 

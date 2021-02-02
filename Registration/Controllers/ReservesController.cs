@@ -10,117 +10,116 @@ using Registration.Models;
 
 namespace Registration.Controllers
 {
-    [Authorize(Roles = "Admin")]
-    public class RoutesController : Controller
+    public class ReservesController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
 
-        // GET: Routes
+        // GET: Reserves
         public ActionResult Index()
         {
-            var routes = db.Routes.Include(r => r.FromCity).Include(r => r.TOCity);
-            return View(routes.ToList());
+            var reserves = db.Reserves.Include(r => r.Customer).Include(r => r.Trip);
+            return View(reserves.ToList());
         }
 
-        // GET: Routes/Details/5
+        // GET: Reserves/Details/5
         public ActionResult Details(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Route route = db.Routes.Find(id);
-            if (route == null)
+            Reserve reserve = db.Reserves.Find(id);
+            if (reserve == null)
             {
                 return HttpNotFound();
             }
-            return View(route);
+            return View(reserve);
         }
 
-        // GET: Routes/Create
+        // GET: Reserves/Create
         public ActionResult Create()
         {
-            ViewBag.FromCityId = new SelectList(db.Cities, "ID", "Name");
-            ViewBag.TOCityId = new SelectList(db.Cities, "ID", "Name");
+            ViewBag.CustomerID = new SelectList(db.Users, "Id", "Address");
+            ViewBag.TripID = new SelectList(db.Trips, "TripID", "DriverID");
             return View();
         }
 
-        // POST: Routes/Create
+        // POST: Reserves/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "ID,FromCityId,TOCityId")] Route route)
+        public ActionResult Create([Bind(Include = "ReserveID,TripID,DateTime,Paid,CardNumber,CustomerID")] Reserve reserve)
         {
             if (ModelState.IsValid)
             {
-                db.Routes.Add(route);
+                db.Reserves.Add(reserve);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
 
-            ViewBag.FromCityId = new SelectList(db.Cities, "ID", "Name", route.FromCityId);
-            ViewBag.TOCityId = new SelectList(db.Cities, "ID", "Name", route.TOCityId);
-            return View(route);
+            ViewBag.CustomerID = new SelectList(db.Users, "Id", "Address", reserve.CustomerID);
+            ViewBag.TripID = new SelectList(db.Trips, "TripID", "DriverID", reserve.TripID);
+            return View(reserve);
         }
 
-        // GET: Routes/Edit/5
+        // GET: Reserves/Edit/5
         public ActionResult Edit(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Route route = db.Routes.Find(id);
-            if (route == null)
+            Reserve reserve = db.Reserves.Find(id);
+            if (reserve == null)
             {
                 return HttpNotFound();
             }
-            ViewBag.FromCityId = new SelectList(db.Cities, "ID", "Name", route.FromCityId);
-            ViewBag.TOCityId = new SelectList(db.Cities, "ID", "Name", route.TOCityId);
-            return View(route);
+            ViewBag.CustomerID = new SelectList(db.Users, "Id", "Address", reserve.CustomerID);
+            ViewBag.TripID = new SelectList(db.Trips, "TripID", "DriverID", reserve.TripID);
+            return View(reserve);
         }
 
-        // POST: Routes/Edit/5
+        // POST: Reserves/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "ID,FromCityId,TOCityId")] Route route)
+        public ActionResult Edit([Bind(Include = "ReserveID,TripID,DateTime,Paid,CardNumber,CustomerID")] Reserve reserve)
         {
             if (ModelState.IsValid)
             {
-                db.Entry(route).State = EntityState.Modified;
+                db.Entry(reserve).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            ViewBag.FromCityId = new SelectList(db.Cities, "ID", "Name", route.FromCityId);
-            ViewBag.TOCityId = new SelectList(db.Cities, "ID", "Name", route.TOCityId);
-            return View(route);
+            ViewBag.CustomerID = new SelectList(db.Users, "Id", "Address", reserve.CustomerID);
+            ViewBag.TripID = new SelectList(db.Trips, "TripID", "DriverID", reserve.TripID);
+            return View(reserve);
         }
 
-        // GET: Routes/Delete/5
+        // GET: Reserves/Delete/5
         public ActionResult Delete(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Route route = db.Routes.Find(id);
-            if (route == null)
+            Reserve reserve = db.Reserves.Find(id);
+            if (reserve == null)
             {
                 return HttpNotFound();
             }
-            return View(route);
+            return View(reserve);
         }
 
-        // POST: Routes/Delete/5
+        // POST: Reserves/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            Route route = db.Routes.Find(id);
-            db.Routes.Remove(route);
+            Reserve reserve = db.Reserves.Find(id);
+            db.Reserves.Remove(reserve);
             db.SaveChanges();
             return RedirectToAction("Index");
         }

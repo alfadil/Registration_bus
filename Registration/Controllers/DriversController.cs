@@ -11,6 +11,7 @@ using Registration.Models;
 
 namespace Registration.Controllers
 {
+    [Authorize(Roles = "Admin")]
     public class DriversController : AccountController
     {
         private void AddErrors(IdentityResult result)
