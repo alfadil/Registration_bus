@@ -15,7 +15,7 @@ namespace Registration.Models
         {
             get
             {
-                return (FromCity.Name + "-" + TOCity.Name);
+                return FromCity.Name + "-" + TOCity.Name;
             }
         }
         [Display(Name = "From")]

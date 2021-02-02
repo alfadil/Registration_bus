@@ -12,11 +12,11 @@
     <hr />
     <dl class="dl-horizontal">
         <dt>
-            @Html.DisplayNameFor(model => model.Driver.Email)
+            @Html.DisplayNameFor(model => model.Driver.Address)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.Driver.Email)
+            @Html.DisplayFor(model => model.Driver.Address)
         </dd>
 
         <dt>
@@ -40,7 +40,7 @@
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.DateTime)
+            @Convert.ToDateTime(Model.DateTime).ToString("yyyy/dd/MM HH:mm")
         </dd>
 
     </dl>

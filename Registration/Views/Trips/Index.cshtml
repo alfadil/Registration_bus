@@ -12,7 +12,7 @@
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.Driver.Email)
+            @Html.DisplayNameFor(model => model.Driver.Address)
         </th>
         <th>
             @Html.DisplayNameFor(model => model.Route.ID)
@@ -29,7 +29,7 @@
 @foreach (var item in Model) {
     <tr>
         <td>
-            @Html.DisplayFor(modelItem => item.Driver.Email)
+            @Html.DisplayFor(modelItem => item.Driver.Address)
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.Route.ID)
@@ -38,7 +38,7 @@
             @Html.DisplayFor(modelItem => item.num_seats)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.DateTime)
+            @Convert.ToDateTime(item.DateTime).ToString("yyyy/dd/MM HH:mm")
         </td>
         <td>
             @Html.ActionLink("Edit", "Edit", new { id=item.TripID }) |

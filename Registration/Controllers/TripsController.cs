@@ -39,8 +39,8 @@ namespace Registration.Controllers
         // GET: Trips/Create
         public ActionResult Create()
         {
-            ViewBag.DriverID = new SelectList(db.Users, "Id", "Email");
-            ViewBag.RouteID = new SelectList(db.Routes, "ID", "ID");
+            ViewBag.DriverID = new SelectList(db.Users, "Id", "Name");
+            ViewBag.RouteID = new SelectList(db.Routes, "ID", "Name");
             return View();
         }
 
@@ -58,8 +58,8 @@ namespace Registration.Controllers
                 return RedirectToAction("Index");
             }
 
-            ViewBag.DriverID = new SelectList(db.Users, "Id", "Email", trip.DriverID);
-            ViewBag.RouteID = new SelectList(db.Routes, "ID", "ID", trip.RouteID);
+            ViewBag.DriverID = new SelectList(db.Users, "Id", "Name", trip.DriverID);
+            ViewBag.RouteID = new SelectList(db.Routes, "ID", "Name", trip.RouteID);
             return View(trip);
         }
 
@@ -75,7 +75,7 @@ namespace Registration.Controllers
             {
                 return HttpNotFound();
             }
-            ViewBag.DriverID = new SelectList(db.Users, "Id", "Email", trip.DriverID);
+            ViewBag.DriverID = new SelectList(db.Users, "Id", "Address", trip.DriverID);
             ViewBag.RouteID = new SelectList(db.Routes, "ID", "ID", trip.RouteID);
             return View(trip);
         }
@@ -93,7 +93,7 @@ namespace Registration.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            ViewBag.DriverID = new SelectList(db.Users, "Id", "Email", trip.DriverID);
+            ViewBag.DriverID = new SelectList(db.Users, "Id", "Address", trip.DriverID);
             ViewBag.RouteID = new SelectList(db.Routes, "ID", "ID", trip.RouteID);
             return View(trip);
         }

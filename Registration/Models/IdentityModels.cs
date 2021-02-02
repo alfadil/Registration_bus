@@ -37,7 +37,6 @@ namespace Registration.Models
 
         public System.Data.Entity.DbSet<Registration.Models.Route> Routes { get; set; }
 
-        public System.Data.Entity.DbSet<Registration.Models.Trip> Trips { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
@@ -55,5 +54,6 @@ namespace Registration.Models
                         .WillCascadeOnDelete(false);
         }
 
+        public System.Data.Entity.DbSet<Registration.Models.Trip> Trips { get; set; }
     }
 }
