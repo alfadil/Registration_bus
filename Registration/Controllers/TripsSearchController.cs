@@ -26,19 +26,10 @@ namespace Registration.Controllers
             ViewBag.NumTrav = NumTrav;
             var trips = db.Trips.Where(t => t.num_seats != t.Reserves.Count).Include(t => t.Driver).Include(t => t.Route);
 
-            //trips = db.Trips.Where(t => (t.num_seats - t.Reserves.Count) >= NumTrav &&
-            //t.Route.FromCityId == FromCityId &&
-            //t.Route.TOCityId == ToCityId &&
-            //t.DateTime.Date == Convert.ToDateTime(DateTime).Date).Include(t => t.Driver).Include(t => t.Route);
-            if (FromCityId != 0)
-            {
-                trips = trips.Where(t => t.Route.FromCityId == FromCityId);
-            }
-
-            if (ToCityId != 0)
-            {
-                trips = trips.Where(t => t.Route.TOCityId == ToCityId);
-            }
+            trips = trips.Where(t => t.Route.FromCityId == FromCityId);
+            
+            trips = trips.Where(t => t.Route.TOCityId == ToCityId);
+            
 
             if (!DateTime.Equals(""))
             {
