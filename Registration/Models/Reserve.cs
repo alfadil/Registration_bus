@@ -29,6 +29,12 @@ namespace Registration.Models
         [DisplayName("Card Number")]
         public string CardNumber { get; set; }
 
+        [DisplayName("Name")]
+        public string Name { get; set; }
+
+        [DisplayName("Paid For Taxi")]
+        public bool TaxiPaid { get; set; }
+
         [Display(Name = "Customer")]
         public string CustomerID { set; get; }
 

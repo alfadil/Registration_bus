@@ -6,12 +6,13 @@
 <h2>Fill The Form</h2>
 <h4>For Each Passenger</h4>
 
-<form asp-controller="TripsSearch" asp-action="FillForm">
+<span> Taxi For One : <span id="LuggagePrice">@ViewBag.LuggagePrice</span></span>
+<form asp-controller="TripsSearch" asp-action="SubmitForm" method="post">
     <p>
         @for (int i = 0; i < ViewBag.NumTrav; i++)
         {
-            var name = "Name" + Convert.ToString(i);
-            var needtaxi = "needtaxi" + Convert.ToString(i);
+            var name = "Name-" + Convert.ToString(i);
+            var needtaxi = "needtaxi-" + Convert.ToString(i);
 
             <label for=@name>Name:</label>
             <input class="text-box single-line" required type="text" name=@name id="asdf" />
@@ -21,29 +22,15 @@
             <hr />
             <br />
         }
-
-        <input type="submit" value="Filter" />
+        <label for="CardNum">Card Number:</label>
+        <input type="text" required name="CardNum" />
+        <input type="submit" value="Submit and Pay" />
+        <input type="text" value=@ViewBag.trip hidden name="trip"/>
+        <input type="number" value=@ViewBag.NumTrav hidden name="NumTrav"/>
     </p>
 </form>
-<table>
-    <tr>
-        <td>
-            Price For All Passengers
-        </td>
-        <td>
-            <p id="current_total" name="current_total"></p>
-        </td>
-    </tr>
-    <tr>
-        <td>
-            Price For Luggage Taxi
-        </td>
-        <td>
-            <p id="LuggagePrice">@ViewBag.LuggagePrice</p>
-        </td>
-    </tr>
-</table>
 
+<span> Total : <span id="current_total" name="current_total" ></span></span>
 <p id="orig_total" hidden>@ViewBag.price</p>
 
 

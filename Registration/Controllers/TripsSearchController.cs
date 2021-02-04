@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.Data;
 using System.Data.Entity;
 using System.Data.Entity.Core.Objects;
@@ -75,6 +76,43 @@ namespace Registration.Controllers
             ViewBag.LuggagePrice = TripJbj.LuggagePrice;
 
             return View();
+        }
+        [HttpPost]
+        [Authorize(Roles = "Customer")]
+        public ActionResult FillForm(int? trip, int? NumTrav, string CardNum, FormCollection fc)
+        {
+            if (trip == null || NumTrav == null || CardNum == null || NumTrav < 1)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Trip TripJbj = db.Trips.Find(trip);
+            if (TripJbj == null)
+            {
+                return HttpNotFound();
+            }
+            int[] reserves = new int[(int)NumTrav];
+            for (int i = 0; i < NumTrav; i++)
+            {
+                var name  = fc.Get("name-" + i);
+                var needtaxi = fc.Get("needtaxi-" + i);
+                if(needtaxi == null)
+                {
+                    needtaxi = "of";
+                }
+                Reserve reserve = new Reserve();
+                reserve.Name = name;
+                reserve.TaxiPaid = needtaxi.Equals("on");
+                reserve.CardNumber = CardNum;
+                reserve.CustomerID = System.Web.HttpContext.Current.User.Identity.GetUserId();
+                reserve.Paid = true;
+                reserve.TripID = (int)trip;
+                reserve.DateTime = DateTime.Now;
+                var NewCreated = db.Reserves.Add(reserve);
+                reserves[i] = NewCreated.ReserveID;
+                db.SaveChanges();
+            }
+            return RedirectToAction("Index", "Home");
+
         }
 
 
