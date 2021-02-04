@@ -50,7 +50,14 @@ namespace Registration.Models
         {
             get
             {
-                return Reserves.Count;
+                if(Reserves != null)
+                {
+                    return Reserves.Count;
+                }
+                else
+                {
+                    return 0;
+                }
             }
         }
 
@@ -59,7 +66,7 @@ namespace Registration.Models
         {
             get
             {
-                if(Reserves.Count == num_seats)
+                if(Reserves != null && Reserves.Count == num_seats)
                 {
                     return true;
                 }

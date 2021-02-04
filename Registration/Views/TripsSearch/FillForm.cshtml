@@ -1,0 +1,64 @@
+﻿
+@{
+    ViewBag.Title = "Fill The Form";
+}
+
+<h2>Fill The Form</h2>
+<h4>For Each Passenger</h4>
+
+<form asp-controller="TripsSearch" asp-action="FillForm">
+    <p>
+        @for (int i = 0; i < ViewBag.NumTrav; i++)
+        {
+            var name = "Name" + Convert.ToString(i);
+            var needtaxi = "needtaxi" + Convert.ToString(i);
+
+            <label for=@name>Name:</label>
+            <input class="text-box single-line" required type="text" name=@name id="asdf" />
+
+            <label for=@needtaxi>Need Taxi:</label>
+            <input class="text-box single-line LuggagePrice-check" type="checkbox" onchange="toggleCheckbox(this)" name=@needtaxi id="asdf" />
+            <hr />
+            <br />
+        }
+
+        <input type="submit" value="Filter" />
+    </p>
+</form>
+<table>
+    <tr>
+        <td>
+            Price For All Passengers
+        </td>
+        <td>
+            <p id="current_total" name="current_total"></p>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            Price For Luggage Taxi
+        </td>
+        <td>
+            <p id="LuggagePrice">@ViewBag.LuggagePrice</p>
+        </td>
+    </tr>
+</table>
+
+<p id="orig_total" hidden>@ViewBag.price</p>
+
+
+<script>
+    var orig_total = parseFloat(document.getElementById("orig_total").innerText);
+    var LuggagePrice = parseFloat(document.getElementById("LuggagePrice").innerText);
+    document.getElementById("current_total").innerText = orig_total;
+    function toggleCheckbox(element) {
+        var checks = document.getElementsByClassName("LuggagePrice-check");
+        checked = 0
+        for (var i = 0; i < checks.length; i++) {
+            if (checks.item(i).checked) {
+                checked++;
+            }
+        }
+        document.getElementById("current_total").innerText = orig_total + (LuggagePrice * checked);
+    }
+</script>

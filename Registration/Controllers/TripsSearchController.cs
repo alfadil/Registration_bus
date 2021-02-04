@@ -54,10 +54,29 @@ namespace Registration.Controllers
             {
                 return HttpNotFound();
             }
+            return RedirectToAction("FillForm", "TripsSearch", new { trip= trip.TripID, NumTrav= NumTrav });
+        }
+
+        [Authorize(Roles = "Customer")]
+        public ActionResult FillForm(int? trip, int? NumTrav)
+        {
+            if (trip == null || NumTrav == null || NumTrav < 1)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Trip TripJbj = db.Trips.Find(trip);
+            if (TripJbj == null)
+            {
+                return HttpNotFound();
+            }
             ViewBag.trip = trip;
             ViewBag.NumTrav = NumTrav;
-            return RedirectToAction("Create", "Reserves");
+            ViewBag.price = TripJbj.Price * NumTrav;
+            ViewBag.LuggagePrice = TripJbj.LuggagePrice;
+
+            return View();
         }
+
 
     }
 }
