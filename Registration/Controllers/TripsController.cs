@@ -58,7 +58,7 @@ namespace Registration.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "TripID,RouteID,num_seats,DateTime,DriverID")] Trip trip)
+        public ActionResult Create([Bind(Include = "TripID,RouteID,num_seats,Price,LuggagePrice,DateTime,DriverID")] Trip trip)
         {
             if (ModelState.IsValid)
             {
@@ -101,7 +101,7 @@ namespace Registration.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "TripID,RouteID,num_seats,DateTime,DriverID")] Trip trip)
+        public ActionResult Edit([Bind(Include = "TripID,RouteID,num_seats,Price,LuggagePrice,DateTime,DriverID")] Trip trip)
         {
             if (ModelState.IsValid)
             {

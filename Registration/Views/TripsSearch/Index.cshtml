@@ -27,6 +27,9 @@
             To
         </th>
         <th>
+            @Html.DisplayNameFor(model => model.Price)
+        </th>
+        <th>
             @Html.DisplayNameFor(model => model.DateTime)
         </th>
         <th></th>
@@ -34,21 +37,24 @@
 
     @foreach (var item in Model)
     {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Route.FromCity.Name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Route.TOCity.Name)
-            </td>
-            <td>
-                @Convert.ToDateTime(item.DateTime).ToString("yyyy MMMM dd HH:mm")
-            </td>
-            <td>
-                @Html.ActionLink("Select", "Edit", new { id = item.TripID })
-            </td>
-            
-        </tr>
+<tr>
+    <td>
+        @Html.DisplayFor(modelItem => item.Route.FromCity.Name)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.Route.TOCity.Name)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.Price)
+    </td>
+    <td>
+        @Convert.ToDateTime(item.DateTime).ToString("yyyy MMMM dd HH:mm")
+    </td>
+    <td>
+        @Html.ActionLink("Select", "ResTrip", new { id = item.TripID, NumTrav = ViewBag.NumTrav })
+    </td>
+
+</tr>
     }
 
 </table>

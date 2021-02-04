@@ -37,6 +37,10 @@ namespace Registration.Models
         [Display(Name = "Driver")]
         public virtual ApplicationUser Driver { set; get; }
 
+        public float Price { get; set; }
+
+        [Display(Name = "Luggage Price")]
+        public float LuggagePrice{ get; set; }
 
         [InverseProperty(nameof(Reserve.Trip))]
         public virtual ICollection<Reserve> Reserves { get; set; }

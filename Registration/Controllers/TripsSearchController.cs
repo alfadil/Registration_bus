@@ -42,5 +42,22 @@ namespace Registration.Controllers
             }
             return View(trips.ToList());
         }
+        [Authorize(Roles = "Customer")]
+        public ActionResult ResTrip(int? id, int? NumTrav)
+        {
+            if (id == null || NumTrav == null || NumTrav < 1)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Trip trip = db.Trips.Find(id);
+            if (trip == null)
+            {
+                return HttpNotFound();
+            }
+            ViewBag.trip = trip;
+            ViewBag.NumTrav = NumTrav;
+            return RedirectToAction("Create", "Reserves");
+        }
+
     }
 }
