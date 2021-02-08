@@ -23,6 +23,10 @@
                 <ul class="nav navbar-nav">
                     <li>@Html.ActionLink("Home", "Index", "Home")</li>
                     <li>@Html.ActionLink("Reserve Now", "Index", "TripsSearch")</li>
+                    @if (User.IsInRole("Customer"))
+                    {
+                        <li>@Html.ActionLink("My Reserves", "CutomerTrips", "TripsSearch")</li>
+                    }
                     @if (User.IsInRole("Admin"))
                     {
                         <li>@Html.ActionLink("Cities", "Index", "Cities")</li>

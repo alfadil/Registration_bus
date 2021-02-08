@@ -284,6 +284,7 @@
     <Content Include="Views\TripsSearch\Index.cshtml" />
     <Content Include="Views\TripsSearch\FillForm.cshtml" />
     <Content Include="Views\TripsSearch\InformPayment.cshtml" />
+    <Content Include="Views\TripsSearch\CutomerTrips.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

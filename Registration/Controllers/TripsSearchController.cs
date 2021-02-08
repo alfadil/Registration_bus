@@ -122,6 +122,13 @@ namespace Registration.Controllers
         {
             return View();
         }
+        [Authorize(Roles = "Customer")]
+        public ActionResult CutomerTrips()
+        {
+            var userid = System.Web.HttpContext.Current.User.Identity.GetUserId();
+            var reserves = db.Reserves.Where(t => t.CustomerID == userid).Include(t => t.Customer).Include(t => t.Trip);
+            return View(reserves.ToList());
+        }
 
 
     }

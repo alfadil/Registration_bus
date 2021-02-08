@@ -1,0 +1,116 @@
+﻿
+@model IEnumerable<Registration.Models.Reserve>
+@{
+    ViewBag.Title = "My Tickets";
+}
+
+<h2>My Tickets</h2>
+
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Name)
+        </th>
+        <th>
+            From
+        </th>
+        <th>
+            To
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DateTime)
+        </th>
+        <th>
+            Qrcode
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr class="pass-line">
+            <td class="name">
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Trip.Route.TOCity.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Trip.Route.FromCity.Name)
+            </td>
+            <td class="datetime">
+                @Convert.ToDateTime(item.DateTime).ToString("yyyy/MM/dd HH:mm")
+            </td>
+            <td class="qrcode">
+                <canvas style="width:100px" class="qr-code"></canvas>
+            </td>
+            <td class="printButton">
+                <a href="#" class="btn btn-success btn-lg" onclick="printTable(this)">
+                    <span class="glyphicon glyphicon-print"></span> Print
+                </a>
+            </td>
+        </tr>
+    }
+
+</table>
+<script src="~/Content/qrious.min.js"></script>
+<script>
+        /* JS comes here */
+
+        (function () {
+            var elements = document.getElementsByClassName("pass-line");
+            for (var i = 0; i < elements.length; i++) {
+                var name = elements[i].querySelector('.name');
+                var datetime = elements[i].querySelector('.datetime');
+                var qrcode = elements[i].querySelector('.qrcode').querySelector('.qr-code');
+
+                var qrtext = name.innerHTML + " : " + datetime.innerHTML;
+                var qr = new QRious({
+                    element: qrcode,
+                    size: 200,
+                    value: qrtext
+                });
+                var image = new Image();
+                image.src = qrcode.toDataURL();
+                qrcode.replaceWith(image);
+            }
+        })();
+
+    function printTable(el) {
+        var divContents = el.parentElement.parentElement.innerHTML;
+            var a = window.open('', '', 'height=500, width=500');
+            a.document.write('<html>');
+            a.document.write('<head>');
+            a.document.write('<link href="/Content/bootstrap.css" rel="stylesheet"><link href="/Content/site.css" rel="stylesheet">');
+            a.document.write('</head>');
+        a.document.write('<body >');
+        a.document.write('<table class="table">'+
+            '<tr>'+
+        '<th>'+
+        '    Name'+
+        '</th>'+
+        '<th>'+
+         '   From'+
+        '</th>'+
+        '<th>'+
+         '   To'+
+        '</th>'+
+        '<th>'+
+         '   Datetime'+
+        '</th>'+
+        '<th>'+
+        '    Qrcode'+
+        '</th>'+
+   ' </tr>')
+        a.document.write(divContents);
+        a.document.write('</table>');
+        a.document.write('</body></html>');
+        a.document.querySelectorAll('.printButton').forEach(function (a) {
+            a.remove()
+        })
+            a.document.close();
+            a.print();
+        }
+
+</script>
