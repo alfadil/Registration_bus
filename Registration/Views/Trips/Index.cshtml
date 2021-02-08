@@ -38,7 +38,7 @@
             @Html.DisplayFor(modelItem => item.num_seats)
         </td>
         <td>
-            @Convert.ToDateTime(item.DateTime).ToString("yyyy/dd/MM HH:mm")
+            @Convert.ToDateTime(item.DateTime).ToString("yyyy/MM/dd HH:mm")
         </td>
         <td>
             @Html.ActionLink("Edit", "Edit", new { id=item.TripID }) |

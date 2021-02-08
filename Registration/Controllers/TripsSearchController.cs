@@ -17,6 +17,7 @@ namespace Registration.Controllers
     {
         // GET: TripsSearch
         private ApplicationDbContext db = new ApplicationDbContext();
+        [Authorize(Roles = "Customer")]
         public ActionResult Index(int FromCityId=0, int ToCityId=0, string DateTime="", int NumTrav=0)
         {
             ViewBag.FromCityId = new SelectList(db.Cities, "ID", "Name");
@@ -57,7 +58,7 @@ namespace Registration.Controllers
             }
             return RedirectToAction("FillForm", "TripsSearch", new { trip= trip.TripID, NumTrav= NumTrav });
         }
-
+        [HttpGet]
         [Authorize(Roles = "Customer")]
         public ActionResult FillForm(int? trip, int? NumTrav)
         {
@@ -79,7 +80,7 @@ namespace Registration.Controllers
         }
         [HttpPost]
         [Authorize(Roles = "Customer")]
-        public ActionResult FillForm(int? trip, int? NumTrav, string CardNum, FormCollection fc)
+        public ActionResult FillForm(int? trip, int? NumTrav, string CardNum, string needtaxi, FormCollection fc)
         {
             if (trip == null || NumTrav == null || CardNum == null || NumTrav < 1)
             {
@@ -90,11 +91,10 @@ namespace Registration.Controllers
             {
                 return HttpNotFound();
             }
-            int[] reserves = new int[(int)NumTrav];
+            Reserve[] reserves = new Reserve[(int)NumTrav];
             for (int i = 0; i < NumTrav; i++)
             {
                 var name  = fc.Get("name-" + i);
-                var needtaxi = fc.Get("needtaxi-" + i);
                 if(needtaxi == null)
                 {
                     needtaxi = "of";
@@ -107,12 +107,20 @@ namespace Registration.Controllers
                 reserve.Paid = true;
                 reserve.TripID = (int)trip;
                 reserve.DateTime = DateTime.Now;
-                var NewCreated = db.Reserves.Add(reserve);
-                reserves[i] = NewCreated.ReserveID;
+                db.Reserves.Add(reserve);
                 db.SaveChanges();
+                db.Entry(reserve).GetDatabaseValues();
+                reserves[i] = reserve;
             }
-            return RedirectToAction("Index", "Home");
+            ViewBag.reserves = reserves;
+            ViewBag.Paid = true;
+            return View(new { trip = 0, NumTrav = 0 });
 
+        }
+
+        public ActionResult InformPayment(Reserve[] reserves)
+        {
+            return View();
         }
 
 

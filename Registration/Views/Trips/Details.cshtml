@@ -58,6 +58,49 @@
         </dd>
 
     </dl>
+
+    @if (Model.Reserves.Count != 0)
+    {
+        <p>Reservations</p>
+        <table class="table">
+            <tr>
+                <th>
+                    Customer
+                </th>
+                <th>
+                    Name
+                </th>
+                <th>
+                    Reserve Date
+                </th>
+                <th>
+                    Need Taxi
+                </th>
+                
+            </tr>
+            @foreach (var item in Model.Reserves)
+            {
+                <tr>
+                    <td>
+                        <p>@item.Customer.Name</p>
+                    </td>
+                    <td>
+                        <p>@item.Name</p>
+                    </td>
+                    <td>
+                        @Convert.ToDateTime(item.DateTime).ToString("yyyy/MM/dd HH:mm")
+                    </td>
+                    <td>
+                        <p>@item.TaxiPaid</p>
+                        
+                    </td>
+
+                </tr>
+            }
+
+        </table>
+
+    }
 </div>
 <p>
     @Html.ActionLink("Edit", "Edit", new { id = Model.TripID }) |

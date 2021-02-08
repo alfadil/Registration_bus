@@ -3,49 +3,147 @@
     ViewBag.Title = "Fill The Form";
 }
 
-<h2>Fill The Form</h2>
-<h4>For Each Passenger</h4>
+@if (ViewBag.Paid is null)
+{
+    <h2>Fill The Form</h2>
+    <h4>For Each Passenger</h4>
 
-<span> Taxi For One : <span id="LuggagePrice">@ViewBag.LuggagePrice</span></span>
-<form asp-controller="TripsSearch" asp-action="SubmitForm" method="post">
-    <p>
-        @for (int i = 0; i < ViewBag.NumTrav; i++)
-        {
-            var name = "Name-" + Convert.ToString(i);
-            var needtaxi = "needtaxi-" + Convert.ToString(i);
+    <form method="post">
+        <p>
+            @for (int i = 0; i < ViewBag.NumTrav; i++)
+            {
+                var name = "Name-" + Convert.ToString(i);
+                var needtaxi = "needtaxi-" + Convert.ToString(i);
 
-            <label for=@name>Name:</label>
-            <input class="text-box single-line" required type="text" name=@name id="asdf" />
+                <label for=@name>Name:</label>
+                <input class="text-box single-line" required type="text" name=@name id="asdf" />
 
-            <label for=@needtaxi>Need Taxi:</label>
-            <input class="text-box single-line LuggagePrice-check" type="checkbox" onchange="toggleCheckbox(this)" name=@needtaxi id="asdf" />
+                <hr />
+                <br />
+            }
+            <span> Need Taxi : <span id="LuggagePrice">@ViewBag.LuggagePrice</span></span>
+            <label for="needtaxi">For The Taxi ?</label>
+            <input class="text-box single-line LuggagePrice-check" type="checkbox" onchange="toggleCheckbox(this)" name="needtaxi" id="LuggagePrice-check" />
             <hr />
             <br />
-        }
-        <label for="CardNum">Card Number:</label>
-        <input type="text" required name="CardNum" />
-        <input type="submit" value="Submit and Pay" />
-        <input type="text" value=@ViewBag.trip hidden name="trip"/>
-        <input type="number" value=@ViewBag.NumTrav hidden name="NumTrav"/>
-    </p>
-</form>
+            <label for="CardNum">Card Number:</label>
+            <input type="text" required name="CardNum" />
+            <input type="submit" value="Submit and Pay" />
+            <input type="text" value=@ViewBag.trip hidden name="trip" />
+            <input type="number" value=@ViewBag.NumTrav hidden name="NumTrav" />
+        </p>
+    </form>
 
-<span> Total : <span id="current_total" name="current_total" ></span></span>
-<p id="orig_total" hidden>@ViewBag.price</p>
+    <span> Total : <span id="current_total" name="current_total"></span></span>
+    <p id="orig_total" hidden>@ViewBag.price</p>
 
-
-<script>
-    var orig_total = parseFloat(document.getElementById("orig_total").innerText);
-    var LuggagePrice = parseFloat(document.getElementById("LuggagePrice").innerText);
-    document.getElementById("current_total").innerText = orig_total;
-    function toggleCheckbox(element) {
-        var checks = document.getElementsByClassName("LuggagePrice-check");
-        checked = 0
-        for (var i = 0; i < checks.length; i++) {
-            if (checks.item(i).checked) {
-                checked++;
+    <script>
+        var orig_total = parseFloat(document.getElementById("orig_total").innerText);
+        var LuggagePrice = parseFloat(document.getElementById("LuggagePrice").innerText);
+        document.getElementById("current_total").innerText = orig_total;
+        function toggleCheckbox(element) {
+            var needtaxi = document.getElementById("LuggagePrice-check");
+            checked = 0
+            if (needtaxi.checked) {
+                checked = 1;
             }
+            document.getElementById("current_total").innerText = orig_total + (LuggagePrice * checked);
         }
-        document.getElementById("current_total").innerText = orig_total + (LuggagePrice * checked);
-    }
-</script>
+    </script>
+
+}
+else
+{
+    <a href="#" class="btn btn-success btn-lg" onclick="printTable()">
+        <span class="glyphicon glyphicon-print"></span> Print
+    </a>
+    <div style="width:100%;height:100px; top:50px; position: relative;">
+        <img style="position: fixed; left: 50%;transform: translate(-50%, -50%); max-width:200px" src="~/Content/paid-banner.jpg" />
+    </div>
+    <div id="table-toprint">
+        <h1 style="text-align:center">My Ticket</h1>
+        <table class="table" border="1">
+            <tr>
+                <th>
+                    Name
+                </th>
+                <th>
+                    From
+                </th>
+                <th>
+                    To
+                </th>
+                <th>
+                    Date
+                </th>
+                <th>
+                    Barcode
+                </th>
+            </tr>
+
+            @for (int i = 0; i < ViewBag.reserves.Length; i++)
+            {
+                <tr class="pass-line">
+                    <td class="name">
+                        @ViewBag.reserves[i].Name
+                    </td>
+                    <td class="from">
+                        @ViewBag.reserves[i].Trip.Route.FromCity.Name
+                    </td>
+                    <td class="to">
+                        @ViewBag.reserves[i].Trip.Route.TOCity.Name
+                    </td>
+                    <td class="datetime">
+                        @Convert.ToDateTime(ViewBag.reserves[i].Trip.DateTime).ToString("yyyy/MM/dd HH:mm")
+                    </td>
+                    <td class="qrcode">
+                        <canvas style="width:100px" class="qr-code"></canvas>
+                    </td>
+                </tr>
+            }
+        </table>
+    </div>
+
+    <script src="~/Content/qrious.min.js"></script>
+    <script>
+        /* JS comes here */
+
+        (function () {
+            var elements = document.getElementsByClassName("pass-line");
+            for (var i = 0; i < elements.length; i++) {
+                var name = elements[i].querySelector('.name');
+                var datetime = elements[i].querySelector('.datetime');
+                var qrcode = elements[i].querySelector('.qrcode').querySelector('.qr-code');
+
+                var qrtext = name.innerHTML + " : " + datetime.innerHTML;
+                var qr = new QRious({
+                    element: qrcode,
+                    size: 200,
+                    value: qrtext
+                });
+                console.log(qrcode.toDataURL());
+                var image = new Image();
+                image.src = qrcode.toDataURL();
+                qrcode.replaceWith(image);
+            }
+        })();
+
+        function printTable() {
+            var divContents = document.getElementById("table-toprint").innerHTML;
+            var a = window.open('', '', 'height=500, width=500');
+            a.document.write('<html>');
+            a.document.write('<head>');
+            a.document.write('<link href="/Content/bootstrap.css" rel="stylesheet"><link href="/Content/site.css" rel="stylesheet">');
+            a.document.write('</head>');
+            a.document.write('<body >');
+            a.document.write(divContents);
+            a.document.write('</body></html>');
+            a.document.close();
+            a.print();
+        }
+
+    </script>
+
+}
+
+

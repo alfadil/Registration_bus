@@ -39,7 +39,7 @@ namespace Registration.Models
 
         public float Price { get; set; }
 
-        [Display(Name = "Luggage Price")]
+        [Display(Name = "Taxi Price")]
         public float LuggagePrice{ get; set; }
 
         [InverseProperty(nameof(Reserve.Trip))]
