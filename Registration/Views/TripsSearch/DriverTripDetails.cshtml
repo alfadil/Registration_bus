@@ -1,0 +1,107 @@
+﻿@model Registration.Models.Trip
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Trip</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Driver)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Driver.Name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Route.Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Route.Name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.num_seats)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.num_seats)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Price)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Price)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.LuggagePrice)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.LuggagePrice)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.DateTime)
+        </dt>
+
+        <dd>
+            @Convert.ToDateTime(Model.DateTime).ToString("yyyy/dd/MM HH:mm")
+        </dd>
+
+    </dl>
+
+    @if (Model.Reserves.Count != 0)
+    {
+        <p>Reservations</p>
+        <table class="table">
+            <tr>
+                <th>
+                    Customer
+                </th>
+                <th>
+                    Name
+                </th>
+                <th>
+                    Reserve Date
+                </th>
+                <th>
+                    Need Taxi
+                </th>
+
+            </tr>
+            @foreach (var item in Model.Reserves)
+            {
+                <tr>
+                    <td>
+                        <p>@item.Customer.Name</p>
+                    </td>
+                    <td>
+                        <p>@item.Name</p>
+                    </td>
+                    <td>
+                        @Convert.ToDateTime(item.DateTime).ToString("yyyy/MM/dd HH:mm")
+                    </td>
+                    <td>
+                        <p>@item.TaxiPaid</p>
+
+                    </td>
+
+                </tr>
+            }
+
+        </table>
+
+    }
+</div>
+<p>
+    @Html.ActionLink("Back to List", "DriverTrips")
+</p>

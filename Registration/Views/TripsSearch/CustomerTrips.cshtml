@@ -27,7 +27,7 @@
         <th></th>
     </tr>
 
-    @foreach (var item in Model)
+    @foreach (var item in Model.OrderByDescending(item => item.ReserveID))
     {
         <tr class="pass-line">
             <td class="name">
@@ -109,9 +109,14 @@
         a.document.write('</body></html>');
         a.document.querySelectorAll('.printButton').forEach(function (a) {
             a.remove()
-        })
-            a.document.close();
-            a.print();
+        });
+        a.document.close();
+        $(a.document).ready(function () {
+        setTimeout(() => { a.print(); }, 2000); 
+            
+        });
+
+        
         }
 
 </script>

@@ -123,13 +123,35 @@ namespace Registration.Controllers
             return View();
         }
         [Authorize(Roles = "Customer")]
-        public ActionResult CutomerTrips()
+        public ActionResult CustomerTrips()
         {
             var userid = System.Web.HttpContext.Current.User.Identity.GetUserId();
             var reserves = db.Reserves.Where(t => t.CustomerID == userid).Include(t => t.Customer).Include(t => t.Trip);
             return View(reserves.ToList());
         }
 
+        [Authorize(Roles = "Driver")]
+        public ActionResult DriverTrips()
+        {
+            var userid = System.Web.HttpContext.Current.User.Identity.GetUserId();
+            var trips = db.Trips.Where(t => t.DriverID == userid).Include(t => t.Driver).Include(t => t.Route);
+            return View(trips.ToList());
+        }
+
+        [Authorize(Roles = "Driver")]
+        public ActionResult DriverTripDetails(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Trip trip = db.Trips.Find(id);
+            if (trip == null)
+            {
+                return HttpNotFound();
+            }
+            return View(trip);
+        }
 
     }
 }

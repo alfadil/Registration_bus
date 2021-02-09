@@ -17,15 +17,22 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                @Html.ActionLink("MyTicked", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+                @Html.ActionLink("MyTicket", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
                     <li>@Html.ActionLink("Home", "Index", "Home")</li>
-                    <li>@Html.ActionLink("Reserve Now", "Index", "TripsSearch")</li>
+                    @if (! User.IsInRole("Driver") && ! User.IsInRole("Admin"))
+                    {
+                        <li>@Html.ActionLink("Reserve Now", "Index", "TripsSearch")</li>
+                    }
                     @if (User.IsInRole("Customer"))
                     {
-                        <li>@Html.ActionLink("My Reserves", "CutomerTrips", "TripsSearch")</li>
+                        <li>@Html.ActionLink("My Reserves", "CustomerTrips", "TripsSearch")</li>
+                    }
+                    @if (User.IsInRole("Driver"))
+                    {
+                        <li>@Html.ActionLink("My Trips", "DriverTrips", "TripsSearch")</li>
                     }
                     @if (User.IsInRole("Admin"))
                     {
