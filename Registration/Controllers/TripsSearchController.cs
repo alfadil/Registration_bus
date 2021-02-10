@@ -28,6 +28,8 @@ namespace Registration.Controllers
             ViewBag.NumTrav = NumTrav;
             var trips = db.Trips.Where(t => t.num_seats != t.Reserves.Count).Include(t => t.Driver).Include(t => t.Route);
 
+            trips = trips.Where(t => t.DateTime > System.DateTime.Now);
+
             trips = trips.Where(t => t.Route.FromCityId == FromCityId);
             
             trips = trips.Where(t => t.Route.TOCityId == ToCityId);

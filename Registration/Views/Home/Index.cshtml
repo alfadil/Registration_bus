@@ -2,30 +2,89 @@
     ViewBag.Title = "Home Page";
 }
 
+<link href="~/Content/mystyle.css" rel="stylesheet" />
 <div class="jumbotron">
-    <h1>ASP.NET</h1>
-    <p class="lead">ASP.NET is a free web framework for building great Web sites and Web applications using HTML, CSS and JavaScript.</p>
-    <p><a href="https://asp.net" class="btn btn-primary btn-lg">Learn more &raquo;</a></p>
+    <h1>Online Bus Reservation System</h1>
 </div>
 
 <div class="row">
     <div class="col-md-4">
-        <h2>Getting started</h2>
+        <h2>Our System</h2>
         <p>
-            ASP.NET MVC gives you a powerful, patterns-based way to build dynamic websites that
-            enables a clean separation of concerns and gives you full control over markup
-            for enjoyable, agile development.
+            Is an online booking and appointment program
         </p>
-        <p><a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301865">Learn more &raquo;</a></p>
+        <p>
+            Which increases the efficiency and effectiveness of your business in order to save time
+        </p>
+        <p>@Html.ActionLink("Reserve Now", "Index", "TripsSearch", null, new { @class = "btn btn-defaul" })</p>
     </div>
     <div class="col-md-4">
-        <h2>Get more libraries</h2>
-        <p>NuGet is a free Visual Studio extension that makes it easy to add, remove, and update libraries and tools in Visual Studio projects.</p>
-        <p><a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301866">Learn more &raquo;</a></p>
+        <h2>Compatible</h2>
+        <p>Compatible with all devices</p>
+        <p>
+            All interfaces of the program are designed to fit all smartphones, tablets, or any other device you use
+        </p>
     </div>
     <div class="col-md-4">
-        <h2>Web Hosting</h2>
-        <p>You can easily find a web hosting company that offers the right mix of features and price for your applications.</p>
-        <p><a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301867">Learn more &raquo;</a></p>
+        <h2>Ease Of Use</h2>
+        <p>Our reservation program is simple and suitable for all needs of booking meetings and setting appointments online..</p>
     </div>
 </div>
+
+<div class="row">
+    <div style="text-align:center">
+        <span class="dot"></span>
+        <span class="dot"></span>
+        <span class="dot"></span>
+        <span class="dot"></span>
+    </div>
+    <br>
+    <div class="slideshow-container">
+
+        <div class="mySlides fade">
+            <img src="~/Content/bus1.jpg" style="width:100%; max-height:500px" />
+            <div class="text">Our Buses</div>
+        </div>
+
+        <div class="mySlides fade">
+            <img src="~/Content/bus2.jpg" style="width:100%; max-height:500px" />
+            <div class="text">Best in the field</div>
+        </div>
+
+        <div class="mySlides fade">
+            <img src="~/Content/bus3.jpg" style="width:100%; max-height:500px" />
+            <div class="text">We care about you</div>
+        </div>
+
+        <div class="mySlides fade">
+            <img src="~/Content/taxi1.jpg" style="width:100%; max-height:500px" />
+            <div class="text">Get Your Taxi Now</div>
+        </div>
+
+    </div>
+
+
+</div>
+
+
+<script>
+var slideIndex = 0;
+showSlides();
+
+function showSlides() {
+  var i;
+  var slides = document.getElementsByClassName("mySlides");
+  var dots = document.getElementsByClassName("dot");
+  for (i = 0; i < slides.length; i++) {
+    slides[i].style.display = "none";
+  }
+  slideIndex++;
+  if (slideIndex > slides.length) {slideIndex = 1}
+  for (i = 0; i < dots.length; i++) {
+    dots[i].className = dots[i].className.replace(" active", "");
+  }
+  slides[slideIndex-1].style.display = "block";
+  dots[slideIndex-1].className += " active";
+  setTimeout(showSlides, 2000); // Change image every 2 seconds
+}
+</script>
